@@ -3,6 +3,7 @@ package com.example.android_xml_evaluacion_1.models
 class CuentaMesa(var numeroMesa: Int) {
 	private val _items : MutableList<ItemMesa> = mutableListOf()
 	var aceptaPropina : Boolean = true
+	var total : Int = 0
 
 	fun agregarItem(item : ItemMesa) {
 		_items.add(item)
@@ -13,7 +14,6 @@ class CuentaMesa(var numeroMesa: Int) {
 	}
 
 	fun calcularTotalSinPropina() : Int {
-		var total = 0
 		for (item in _items) {
 			total += item.calcularSubtotal()
 		}
@@ -21,10 +21,10 @@ class CuentaMesa(var numeroMesa: Int) {
 	}
 
 	fun calcularPropina() : Int {
-		return calcularTotalSinPropina() / 10
+		return total / 10
 	}
 
 	fun calcularTotalConPropina() : Int {
-		return calcularTotalSinPropina() + calcularPropina()
+		return total + calcularPropina()
 	}
 }
