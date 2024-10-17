@@ -1,6 +1,6 @@
 package com.example.android_xml_evaluacion_1.models
 
-class CuentaMesa(var numeroMesa: Int) {
+class CuentaMesa(val numeroMesa: Int) {
 	private val _items : MutableList<ItemMesa> = mutableListOf()
 	var aceptaPropina : Boolean = true
 	var total : Int = 0

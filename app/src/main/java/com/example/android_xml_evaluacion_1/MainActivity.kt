@@ -3,8 +3,8 @@ package com.example.android_xml_evaluacion_1
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.EditText
-import android.widget.Switch
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -19,7 +19,6 @@ import java.util.Locale
 
 
 class MainActivity : AppCompatActivity() {
-
 	private var tvTitleItem1: TextView? = null
 	private var tvTitleItem2: TextView? = null
 	private var etItem1Cantidad: EditText? = null
@@ -30,11 +29,9 @@ class MainActivity : AppCompatActivity() {
 	private var tvPropinaValue: TextView? = null
 	private var tvTotalValue: TextView? = null
 	private var swPropina: SwitchCompat? = null
-
 	val formatter = NumberFormat.getCurrencyInstance(Locale("es", "CL"))
 	val PRECIO_ITEM1 = 12000
 	val PRECIO_ITEM2 = 10000
-
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		enableEdgeToEdge()
@@ -56,22 +53,25 @@ class MainActivity : AppCompatActivity() {
 		tvPropinaValue = findViewById(R.id.tvPropinaValue)
 		tvTotalValue = findViewById(R.id.tvTotalValue)
 		swPropina = findViewById(R.id.swPropina)
-
 		tvValueItem1?.setText(formatter.format(PRECIO_ITEM1))
 		tvValueItem2?.setText(formatter.format(PRECIO_ITEM2))
-
 		swPropina?.setOnCheckedChangeListener { buttonView, isChecked ->
 			procesarCuenta()
 		}
-
 		etItem1Cantidad?.addTextChangedListener(object : TextWatcher {
 			override fun beforeTextChanged(
-				s: CharSequence?, start: Int, count: Int, after: Int
+				s: CharSequence?,
+				start: Int,
+				count: Int,
+				after: Int
 			) {
 			}
 
 			override fun onTextChanged(
-				s: CharSequence?, start: Int, before: Int, count: Int
+				s: CharSequence?,
+				start: Int,
+				before: Int,
+				count: Int
 			) {
 			}
 
@@ -79,15 +79,20 @@ class MainActivity : AppCompatActivity() {
 				procesarCuenta()
 			}
 		})
-
 		etItem2Cantidad?.addTextChangedListener(object : TextWatcher {
 			override fun beforeTextChanged(
-				s: CharSequence?, start: Int, count: Int, after: Int
+				s: CharSequence?,
+				start: Int,
+				count: Int,
+				after: Int
 			) {
 			}
 
 			override fun onTextChanged(
-				s: CharSequence?, start: Int, before: Int, count: Int
+				s: CharSequence?,
+				start: Int,
+				before: Int,
+				count: Int
 			) {
 			}
 
@@ -101,15 +106,21 @@ class MainActivity : AppCompatActivity() {
 	fun procesarCuenta() {
 		val cuenta = CuentaMesa(1)
 		cuenta.aceptaPropina = swPropina?.isChecked ?: true
+		val quantity1 =
+			if (etItem1Cantidad?.text.toString().length > 0) etItem1Cantidad?.text.toString()
+				.toInt() else 0
 		cuenta.agregarItem(
 			ItemMesa(
-				etItem1Cantidad?.text.toString().toInt(),
+				quantity1,
 				ItemMenu(tvTitleItem1?.text.toString(), PRECIO_ITEM1.toString())
 			)
 		)
+		val quantity2 =
+			if (etItem2Cantidad?.text.toString().length > 0) etItem2Cantidad?.text.toString()
+				.toInt() else 0
 		cuenta.agregarItem(
 			ItemMesa(
-				etItem2Cantidad?.text.toString().toInt(),
+				quantity2,
 				ItemMenu(tvTitleItem2?.text.toString(), PRECIO_ITEM2.toString())
 			)
 		)
@@ -118,7 +129,6 @@ class MainActivity : AppCompatActivity() {
 		val totalConPropina =
 			if (cuenta.aceptaPropina) cuenta.calcularTotalConPropina()
 			else total
-
 		tvComidaValue?.setText(formatter.format(total))
 		tvPropinaValue?.setText(formatter.format(propina))
 		tvTotalValue?.setText(formatter.format(totalConPropina))
